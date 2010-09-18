@@ -498,9 +498,9 @@ do_close(#state{socket = Sock,
                 is_ssl = true,
                 use_proxy = true,
                 proxy_tunnel_setup = Pts
-               }) when Pts /= done ->  gen_tcp:close(Sock);
-do_close(#state{socket = Sock, is_ssl = true})  ->  ssl:close(Sock);
-do_close(#state{socket = Sock, is_ssl = false}) ->  gen_tcp:close(Sock).
+               }) when Pts /= done ->  catch gen_tcp:close(Sock), ok;
+do_close(#state{socket = Sock, is_ssl = true})  ->  catch ssl:close(Sock), ok;
+do_close(#state{socket = Sock, is_ssl = false}) ->  catch gen_tcp:close(Sock), ok.
 
 active_once(#state{cur_req = #request{caller_controls_socket = true}}) ->
     ok;
